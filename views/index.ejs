@@ -85,54 +85,13 @@
             <hr>
 
             <!-- Preview Image -->
-            <img class="img-responsive" src="images/sample.jpg" alt="">
+            <div id="main" ng-bind-html="blog">
+
+            </div>
+
 
             <hr>
 
-            <!-- Post Content -->
-            <div id="main">
-
-                <a name="TemplateInfo"></a>
-
-                <h1>[신휴창]나는?</h1>
-
-                <p></p>
-
-                <p><span style="font-size: 11pt;">20대 중초반부터 계속 달려왔다.</span></p>
-
-                <p>
-                    <span style="font-size: 11pt;">잘나지 않은 내가 남들보다 잘나고 싶으면 남들 보다 뛰어난 실력으로 어디서든 꿀리지 않게 인정을 받아야 함을 알기에</span>
-                </p>
-
-                <p>&nbsp;</p>
-
-                <p><span style="font-size: 11pt;">내 포지션에서 최고의 정점을 찍고,</span></p>
-
-                <p><span style="font-size: 11pt;">언제나 노력을 즐겨왔다.</span></p>
-
-                <p>&nbsp;</p>
-
-                <p><span style="font-size: 11pt;">그런데, 생각보다 결과가 안나온다.</span></p>
-
-                <p><span style="font-size: 11pt;">내 즐김이 줄었나보다.</span></p>
-
-                <p>&nbsp;</p>
-
-                <p><span style="font-size: 11pt;">그래도 누가 뭐래도 나는 최고의 개발자 <span style="font-size: 14pt;">신휴창</span></span>
-                </p>
-
-                <p><img src="http://blog.hutt.co.kr/files/blog/1441633934861emot_705.gif" style="width: 100%;">&nbsp;
-                </p>
-
-                <p>&nbsp;</p>
-
-                <p></p>
-
-                <p></p><p></p><p>
-
-
-                </p></div>
-            <hr>
 
             <!-- Blog Comments -->
 
@@ -141,7 +100,7 @@
                 <h4>Leave a Comment:</h4>
                 <form role="form">
                     <div class="form-group">
-                        <textarea class="form-control" ng-model="reply.content" rows="3"></textarea>
+                        <textarea class="form-control" ng-model="reply.content" ng-keyup="test(this)" rows="3"></textarea>
                     </div>
                     <button type="submit" ng-click="doWriteReply();" class="btn btn-primary">Submit</button>
                 </form>
@@ -213,26 +172,15 @@
             <div class="well">
                 <h4>Blog Categories</h4>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6" >
                         <ul class="list-unstyled">
-                            <li><a href="#">Category Name</a>
-                            </li>
-                            <li><a href="#">Category Name</a>
-                            </li>
-                            <li><a href="#">Category Name</a>
-                            </li>
-                            <li><a href="#">Category Name</a>
+                            <li ng-if="$index <= 7" ng-repeat="item in categories" ng-click="reloadBlog(item.idcategory)" style="cursor: pointer;">
+                                {{item.cat_name}}
                             </li>
                         </ul>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6" ng-if="categories.length > 8">
                         <ul class="list-unstyled">
-                            <li><a href="#">Category Name</a>
-                            </li>
-                            <li><a href="#">Category Name</a>
-                            </li>
-                            <li><a href="#">Category Name</a>
-                            </li>
                             <li><a href="#">Category Name</a>
                             </li>
                         </ul>
@@ -276,7 +224,6 @@
 
 </div>
 <!-- /.container -->
-
 <!-- jQuery -->
 <script src="javascripts/angular.min.js"></script>
 <script src="javascripts/controllers/controller.js"></script>
