@@ -20,8 +20,8 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
 </head>
@@ -42,7 +42,7 @@
             <ul class="nav navbar-nav">
                 <li>
                     <a href="#">Deblog</a>
-               </li>
+                </li>
                 <li>
                     <a href="#">Footprint</a>
                 </li>
@@ -56,84 +56,54 @@
     <!-- /.container -->
 </nav>
 
+
 <!-- Page Content -->
 <div class="container">
 
     <div class="row">
 
-        <!-- Blog Post Content Column -->
-        <div class="col-lg-8">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
 
-            <!-- Title -->
-            <h1>{{ blog.blog_subject }}</h1>
-            <!-- Author -->
-            <p class="lead">
-                create by <a href="#">Hutt</a>
-            </p>
-            <hr>
-            <!-- Date/Time -->
-            <p>
-                <span class="glyphicon glyphicon-time"></span>
-                <span ng-bind="blog.blog_reg_date | date:'yyyy.MM.dd hh:mm'"></span>
-            </p>
-            <hr>
-            <!-- Preview Image -->
-            <div id="main" ng-bind-html="blogContent"></div>
-            <hr>
-            <!-- Comments Form -->
-            <div class="well">
-                <h4>Leave a Comment:</h4>
-                <form role="form">
-                    <div class="form-group">
-                        <textarea class="form-control" ng-model="reply.content" rows="3"></textarea>
-                    </div>
-                    <button type="submit" ng-click="doWriteReply();" class="btn btn-primary">Submit</button>
-                </form>
+            <h1 class="page-header">
+                {{ subtitle }}
+                <small> {{ description }} </small>
+            </h1>
+
+            <!-- First Blog Post -->
+
+            <div ng-repeat="blog in blogs">
+                <h2>
+                    <a href="#">{{ blog.blog_subject }}</a>
+                </h2>
+                <p class="lead">
+                    by <a href="">Hutt</a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"  ng-bind="blog.blog_reg_date | date:'yyyy.MM.dd hh:mm'"></span> </p>
+                <hr>
+                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+                <hr>
+                <p ng-bind-html="convertHtml(blog.board_content)">
+                </p>
+
+                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                <hr>
             </div>
 
-            <!-- Posted Comments -->
 
-            <!-- Comment -->
-            <div class="media" ng-repeat="reply in replies">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="http://placehold.it/64x64" alt="">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <span class="writer">{{reply.reply_member_name}}</span>
-                        <small ng-bind="reply.reply_reg_date | date: 'yyyy.MM.dd a mm:hh'"></small>
-                    </h4>
-                    {{ reply.reply_content }}
-                    <!-- Nested Comment -->
-                    <!--<div class="media">-->
-                        <!--<a class="pull-left" href="#">-->
-                            <!--<img class="media-object" src="http://placehold.it/64x64" alt="">-->
-                        <!--</a>-->
-                        <!--<div class="media-body">-->
-                            <!--<h4 class="media-heading">Nested Start Bootstrap-->
-                                <!--<small>August 25, 2014 at 9:30 PM</small>-->
-                            <!--</h4>-->
-                            <!--Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!-- End Nested Comment -->
-                </div>
-            </div>
-            <hr>
-            <div class="list-group">
-                <a class="list-group-item" ng-click="loadBlog(preview._id)" ng-repeat="preview in previews" style="cursor: pointer;">
-                    <h4 class="list-group-item-heading">{{preview.blog_subject}}</h4>
-                </a>
-            </div>
-            <hr ng-if="blogcount > 1">
-            <div class="btn-group" role="group" ng-if="blogcount > 1" style="text-align: center">
-                <button type="button" ng-click="reloadBlog(selectedCategory, pageNum-1)" class="btn btn-default">이전</button>
-                <button type="button" ng-click="reloadBlog(selectedCategory, pageNum+1)"class="btn btn-default">다음</button>
-            </div>
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="previous">
+                    <a href="#">&larr; Older</a>
+                </li>
+                <li class="next">
+                    <a href="#">Newer &rarr;</a>
+                </li>
+            </ul>
+
         </div>
 
-
-        <!-- SIDE --->
         <!-- Blog Sidebar Widgets Column -->
         <div class="col-md-4">
 
@@ -156,7 +126,7 @@
                 <h4>Categories</h4>
                 <ul class="list-group">
                     <li ng-class="!selectedCategory ? 'active' : ''"
-                            class="list-group-item" style="cursor: pointer;" ng-click="reloadBlog()">
+                        class="list-group-item" style="cursor: pointer;" ng-click="reloadBlog()">
                         <span class="badge">26</span>
                         전체
                     </li>
@@ -197,13 +167,13 @@
             <div class="col-lg-12">
                 <p>Copyright &copy; Your Website 2014</p>
             </div>
+            <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
     </footer>
 
 </div>
 <!-- /.container -->
-<!-- jQuery -->
 </body>
 <script src="javascripts/angular.min.js"></script>
 <script src="javascripts/controllers/controller.js"></script>

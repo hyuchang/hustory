@@ -5,7 +5,7 @@
 module.exports = {
     mode : process.env.NODE_ENV,
     db   : {
-        host : 'mongodb://localhost/hustory',
+        host : 'mongodb://www.hutt.co.kr/hustory',
         user : '',
         pwd  : '',
     },
