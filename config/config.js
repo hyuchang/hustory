@@ -4,6 +4,8 @@
 var path = require('path');
 uploadPath = '/hucloud/blog_data/';
 webPath = 'http://resource.hutt.co.kr/';
+
+// 개발 환경의 파일 경로
 if ( !process.env.NODE_ENV || process.env.NODE_ENV == 'development') {
     uploadPath  = path.join(__dirname + '/../public/uploads');
     webPath     = 'http://localhost:3000/uploads/'
@@ -12,7 +14,7 @@ if ( !process.env.NODE_ENV || process.env.NODE_ENV == 'development') {
 module.exports = {
     mode : process.env.NODE_ENV,
     db   : {
-        host : 'mongodb://www.hutt.co.kr/hustory',
+        host : 'mongodb://localhost/hustory',
         user : '',
         pwd  : '',
     },
@@ -21,7 +23,7 @@ module.exports = {
     },
     webPath    : webPath,
     uploadPath : uploadPath,
-    postId : 'userId',
-    passwd : 'userPw',
+    postId : '',
+    passwd : '',
     aws  : {}
 };
