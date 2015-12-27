@@ -11,7 +11,7 @@ module.exports = function(mongoose){
         "blog_member_idx"       : { type : Number   },
         "blog_subject"          : { type : String   },
         "board_content"         : { type : String   },
-        "blog_reg_date"         : { type : Date     },
+        "blog_reg_date"         : { type : Date    , default : Date.now },
         "blog_private_flag"     : { type : Boolean  },
         "category_idcategory"   : { type : Number   },
         "board_id"              : { type : Number   }

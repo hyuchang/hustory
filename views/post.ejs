@@ -1,37 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="blog">
-
+<html lang="en" ng-app="blog_post">
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="블로그 작성 페이지">
     <meta name="author" content="">
-
     <title>{{ title }}</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="stylesheets/bootstrap.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="stylesheets/blog-post.css" rel="stylesheet">
+    <link href="javascripts/bower_components/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="javascripts/bower_components/summernote/dist/summernote.css" rel="stylesheet">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
-
-<body ng-controller="main-controller">
+<body ng-controller="post-controller">
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 
-    <div  class="container">
+    <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <a class="navbar-brand" href="/">{{title}}</a>
@@ -56,68 +50,53 @@
     <!-- /.container -->
 </nav>
 
-
 <!-- Page Content -->
 <div class="container">
 
     <div class="row">
 
-        <!-- Blog Entries Column -->
-        <div class="col-md-8">
+        <!-- Blog Post Content Column -->
+        <div class="col-lg-8">
 
-            <h1 class="page-header">
-                {{ subtitle }}
-                <small> {{ description }} </small>
-            </h1>
+            <!-- Title -->
+            <p>
+                <span class="glyphicon glyphicon-time"></span>
+                <span ng-bind="now | date:'yyyy.MM.dd a hh:mm'"></span>
+            </p>
 
-            <!-- First Blog Post -->
-
-            <div ng-repeat="blog in blogs">
-                <h2>
-                    <a href="#">{{ blog.blog_subject }}</a>
-                </h2>
-                <p class="lead">
-                    by <a href="">Hutt</a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"  ng-bind="blog.blog_reg_date | date:'yyyy.MM.dd hh:mm'"></span> </p>
-                <!--
-                <hr>
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-                -->
-                <hr>
-                <p ng-bind-html="convertHtml(blog.board_content)">
-                </p>
-
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-                <hr style="margin-bottom: 100px;">
+            <input class="input-xlarge" type="text" style="width: 100%;" ng-model="blog.blog_subject">
+            <hr>
+            <h1>{{ blog.blog_subject }}</h1>
+            <!-- postArea -->
+            <div id="postArea">
+                <summernote
+                    lang="ko-KR"
+                    editable="editable"
+                    editor="editor"
+                    config="options"
+                    on-image-upload="imageUpload(files)"
+                    ng-model="blog.board_content"></summernote>
             </div>
-
-
-            <!-- Pager -->
-            <ul class="pager">
-                <li class="previous">
-                    <a href="#">&larr; Older</a>
-                </li>
-                <li class="next">
-                    <a href="#">Newer &rarr;</a>
-                </li>
-            </ul>
-
+            <hr>
+            <button type="button" class="btn btn-default" ng-click="write();">등록</button>
         </div>
 
+
+        <!-- SIDE --->
         <!-- Blog Sidebar Widgets Column -->
         <div class="col-md-4">
 
             <!-- Blog Search Well -->
             <div class="well">
                 <h4>Search</h4>
+
                 <div class="input-group">
                     <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
                 </div>
                 <!-- /.input-group -->
             </div>
@@ -126,14 +105,12 @@
             <div class="well">
                 <h4>Categories</h4>
                 <ul class="list-group">
-                    <li ng-class="!selectedCategory ? 'active' : ''"
-                        class="list-group-item category_all" style="cursor: pointer;" ng-click="reloadBlog()">
-                        <span class="badge">26</span>
-                        전체
-                    </li>
-                    <li ng-class="selectedCategory == item.idcategory ? 'active' : ''" ng-repeat="item in categories" ng-click="reloadBlog(item.idcategory)" style="cursor: pointer;" class="list-group-item">
-                        <span class="badge">14</span> {{item.cat_name}}
-                    </li>
+                    <% categories.forEach(function(attr, index){%>
+                        <li ng-click="reloadBlog(<%=attr.idcategory%>)" style="cursor: pointer;" class="list-group-item">
+                            <span class="badge">14</span> <%= attr.cat_name%>
+                        </li>
+                    <% });%>
+
                 </ul>
                 <!-- /.row -->
             </div>
@@ -141,6 +118,7 @@
             <!-- Side Widget Well -->
             <div class="well">
                 <h4>Tags</h4>
+
                 <p>
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" style="margin:1px" class="btn btn-default">Java</button>
@@ -168,18 +146,23 @@
             <div class="col-lg-12">
                 <p>Copyright &copy; Your Website 2014</p>
             </div>
-            <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
     </footer>
 
 </div>
 <!-- /.container -->
+<!-- jQuery -->
 </body>
-<script src="javascripts/angular.min.js"></script>
-<script src="javascripts/controllers/controller.js"></script>
+
+
 <script src="javascripts/jquery.js"></script>
-<!-- Bootstrap Core JavaScript -->
 <script src="javascripts/bootstrap.min.js"></script>
 
+<script src="javascripts/angular.min.js"></script>
+<script src="javascripts/controllers/controller.js"></script>
+
+<script src="javascripts/bower_components/summernote/dist/summernote.min.js"></script>
+<script src="javascripts/bower_components/summernote/lang/summernote-ko-KR.js"></script>
+<script src="javascripts/bower_components/angular-summernote/dist/angular-summernote.min.js"></script>
 </html>
